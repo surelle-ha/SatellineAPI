@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: api.dq-sadtelite
+    runtime: node
+    repo: https://github.com/surelle-ha/SadteliteAPI.git
+    plan: free
+    branch: main
+    buildCommand: npm install
+    startCommand: node server.js
