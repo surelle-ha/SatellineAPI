@@ -26,7 +26,7 @@ wss.broadcast = function broadcast(msg) {
     });
 };
 
-const job = new cron.CronJob('*/14 * * * *', function () {
+const job = new cron.CronJob('*/10 * * * *', function () {
     console.log(`Restarting server`);
 }).start();
 

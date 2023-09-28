@@ -9,7 +9,7 @@
 
     <script>
         const messageContainer = document.getElementById('message-container');
-        const webSocket = new WebSocket('ws://localhost:8100/socket'); // Replace with your server's URL
+        const webSocket = new WebSocket('ws://api-dq-sadtelite.onrender.com/socket'); // Replace with your server's URL
 
         webSocket.onopen = () => {
             messageContainer.innerHTML += '<p>WebSocket Connection Opened</p>';
