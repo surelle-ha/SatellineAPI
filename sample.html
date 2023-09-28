@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Client</title>
+</head>
+<body>
+    <h1>WebSocket Client</h1>
+    <div id="message-container"></div>
+
+    <script>
+        const messageContainer = document.getElementById('message-container');
+        const webSocket = new WebSocket('ws://localhost:8100/socket'); // Replace with your server's URL
+
+        webSocket.onopen = () => {
+            messageContainer.innerHTML += '<p>WebSocket Connection Opened</p>';
+        };
+
+        webSocket.onmessage = (event) => {
+            const message = event.data;
+            messageContainer.innerHTML += `<p>Received message: ${message}</p>`;
+        };
+
+        webSocket.onclose = () => {
+            messageContainer.innerHTML += '<p>WebSocket Connection Closed</p>';
+        };
+
+        webSocket.onerror = (error) => {
+            messageContainer.innerHTML += `<p>WebSocket Error: ${error.message}</p>`;
+        };
+    </script>
+</body>
+</html>
