@@ -11,20 +11,47 @@ const server = http.createServer(app);
 
 const wss = new WebSocket.Server({ server, path: '/socket' });
 
-wss.on('connection', function connection(ws) {
-    ws.on('message', function (message) {
-        wss.broadcast(message);
-    });
+// Store authenticated clients
+const authenticatedClients = new Set();
+
+wss.on('connection', function connection(ws, req) {
+    // Perform authentication here
+    const authToken = req.headers.authorization; // You can use a custom header for authentication
+
+    if (isValidToken(authToken)) {
+        // Add the authenticated client to the set
+        authenticatedClients.add(ws);
+
+        ws.on('message', function (message) {
+            wss.broadcast(message);
+        });
+
+        ws.on('close', function () {
+            // Remove the client from the set when they disconnect
+            authenticatedClients.delete(ws);
+        });
+    } else {
+        // If authentication fails, close the connection
+        ws.close();
+    }
 });
 
 wss.broadcast = function broadcast(msg) {
     console.log(msg);
-    wss.clients.forEach(function each(client) {
+    authenticatedClients.forEach(function each(client) {
         if (client.readyState === WebSocket.OPEN) {
             client.send(msg);
         }
     });
 };
+
+// Function to validate the token (you should implement your own logic here)
+function isValidToken(token) {
+    // Add your token validation logic here
+    // For example, you can check the token against a list of valid tokens
+    const validTokens = ['token1', 'token2', 'token3'];
+    return validTokens.includes(token);
+}
 
 const job = new cron.CronJob('*/10 * * * *', function () {
     console.log(`Restarting server`);
