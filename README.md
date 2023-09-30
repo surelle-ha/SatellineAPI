@@ -49,7 +49,7 @@ Run using recommended launch script
 
     node server.js
     
- ## Usage - Sender
+ ## Sample Usage - Sender
  Send message using PHP
 
     $APIReturn = file_get_contents(env('NOTIF_API_URL') . '?' . 
@@ -70,7 +70,7 @@ Run using recommended launch script
 	        )
 	    ));
     
- ## Usage - Receiver
+ ## Sample Usage - Receiver
  Receive message via Javascript
  
 	const messageContainer = document.getElementById('message-container');
