@@ -35,7 +35,13 @@ app.use(express.json());
 app.use(cors());
 
 app.get('/', (req, res) => {
-    res.send('Express server is running');
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json({
+        transaction: 'success', 
+        data: {
+            Server: 'Active',
+        },
+    });
 });
 
 app.get('/msg/send', (req, res) => {
