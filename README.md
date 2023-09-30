@@ -31,6 +31,38 @@
   <img src="https://visme.co/blog/wp-content/uploads/2020/02/header-1200.gif" width="600" height="300"/><br><br>
 </div>
 
+## Overview
+This project involves the creation of a real-time WebSocket message broadcasting server using Node.js, Express.js, and the WebSocket library. The server allows clients to connect via WebSocket to send and receive messages in real-time. It also includes a RESTful API for checking the server's status and sending messages.
+
+## Features
+1. **WebSocket Integration:** The server establishes a WebSocket connection to enable real-time communication between clients and the server. Clients can send messages to the server, and the server broadcasts these messages to all connected clients.
+
+2. **Cron-Based Server Restart:** The server employs a cron job that runs every 10 minutes to log a message indicating a server restart. This ensures server stability and uptime.
+
+3. **RESTful API:** The server provides a set of RESTful API endpoints for external interactions:
+   - `GET /`: Returns a JSON response indicating the server's status as "Active."
+   - `GET /msg/send`: Accepts query parameters for sending messages to connected clients via WebSocket. It returns a JSON response indicating the success or failure of the message transmission.
+   - `GET /msg/status`: Returns a JSON response with the server's status as "active."
+
+## Code Highlights
+- The server is built using Express.js and runs on port 1430.
+- WebSocket connections are handled using the WebSocket library.
+- The `broadcast` function is responsible for sending messages to all connected WebSocket clients.
+- A cron job is set to restart the server every 10 minutes, logging a message each time it runs.
+- CORS middleware is used to enable cross-origin requests.
+
+## Usage
+- Clients can connect to the WebSocket server at `ws://your_server_url:1430/socket`.
+- To send a message, clients can make a GET request to `/msg/send` with the `message` query parameter.
+- The server's status can be checked by making a GET request to `/msg/status`.
+
+## Project Goals
+- Create a robust and real-time messaging server.
+- Provide a RESTful API for server status and message broadcasting.
+- Ensure server stability with periodic restarts.
+
+This project is a foundation for building real-time communication applications, such as chat applications, notifications, or live updates, where WebSocket-based communication is crucial for delivering messages in real-time.
+
 ## Installation
 You can download by cloning the Git repository:
 
