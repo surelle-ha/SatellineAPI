@@ -2,53 +2,82 @@ const WebSocket = require("ws");
 const cron = require('cron');
 const http = require('http');
 const express = require('express');
-const cors = require('cors'); // Import the cors middleware
+const cors = require('cors');
 
 const app = express();
-const port = 8100;
+const port = 1430;
 
 const server = http.createServer(app);
 
 const wss = new WebSocket.Server({ server, path: '/socket' });
 
-wss.on('connection', function connection(ws) {
-    ws.on('message', function (message) {
-        wss.broadcast(message);
+wss.on('connection', (ws) => {
+    ws.on('message', (message) => {
+        broadcast(message);
     });
 });
 
-wss.broadcast = function broadcast(msg) {
+function broadcast(msg) {
     console.log(msg);
-    wss.clients.forEach(function each(client) {
+    wss.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
             client.send(msg);
         }
     });
-};
+}
 
-const job = new cron.CronJob('*/10 * * * *', function () {
+const job = new cron.CronJob('*/10 * * * *', () => {
     console.log(`Restarting server`);
 }).start();
 
 app.use(express.json());
 
-// Enable CORS for all routes
-app.use(cors()); // This will allow all origins to access your server
+app.use(cors());
 
 app.get('/', (req, res) => {
     res.send('Express server is running');
 });
 
-app.get('/notif/send', (req, res) => {
+app.get('/msg/send', (req, res) => {
     const message = req.query.message;
+    const currentDate = new Date().toISOString().slice(0, 10); 
+    const currentTime = new Date().toISOString().slice(11, 19);
+
     if (message) {
-        wss.broadcast(message);
-        res.send('Message sent to WebSocket');
+        broadcast(message);
+
+        res.setHeader('Content-Type', 'application/json');
+        res.status(200).json({
+            transaction: 'success',
+            date: currentDate,
+            time: currentTime,
+            message: message,
+        });
     } else {
-        res.status(400).send('Message parameter missing');
+
+        res.setHeader('Content-Type', 'application/json');
+        res.status(400).json({
+            transaction: 'success', 
+            date: currentDate,
+            time: currentTime,
+            message: 'Message parameter missing or not in JSON format.'
+        });
     }
 });
 
+app.get('/msg/status', (req, res) => {
+    const currentDate = new Date().toISOString().slice(0, 10); 
+    const currentTime = new Date().toISOString().slice(11, 19);
+
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json({
+        transaction: 'success',
+        date: currentDate,
+        time: currentTime,
+        status: 'active',
+    });
+});
+
 server.listen(port, () => {
-    console.log(`Express server listening on port ${port}`);
+    console.log(`Server Port: ${port}`);
 });
