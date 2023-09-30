@@ -44,11 +44,70 @@ Install required packages.
 
     npm install
 
- ## Usage
+ ## Usage - Start
 Run using recommended launch script
 
     node server.js
     
+ ## Usage - Sender
+ Send message using PHP
+
+    $APIReturn = file_get_contents(env('NOTIF_API_URL') . '?' . 
+	    http_build_query(
+	        array(
+	            'message' => json_encode(
+	                array(
+	                'title' => 'Update',
+	                'body' => $updatedRows . ' records has been approved.',
+	                'target_group' => 'user',
+	                'target_specific' => $recordId,
+	                'channel' => env('APP_ENV'),
+	                'action' => 'none',
+	                'date' => date('Y-m-d'),
+	                'time' => date('H:i:s')
+	                )
+	            )
+	        )
+	    ));
+    
+ ## Usage - Receiver
+ Receive message via Javascript
+ 
+	const messageContainer = document.getElementById('message-container');
+	const webSocket = new WebSocket('wss://api-dq-sadtelite.onrender.com/socket'); 
+	webSocket.onopen = () => { console.log('WebSocketToast-Identified') }; 
+	webSocket.onclose = () => { console.log('WebSocketToast-Disconnected') }; 
+	webSocket.onerror = (error) => { console.log(`WebSocketToast-Disconnected: ${error.message}`) };
+	webSocket.onmessage = (event) => {
+	    const message = event.data; 
+	    let notif = JSON.parse(message) 
+
+	    if(notif.channel == "{{env('APP_ENV')}}"){
+	      if(notif.target_group == 'user'){
+	        if(notif.target_specific == '{{Auth::user()->id}}'){
+	          Render(notif)
+	        }
+	      }
+	    }
+
+	    function Render(notif){
+	      /* --- RENDERER --- */
+	      messageContainer.innerHTML += `
+	      <div class="bs-toast toast fade show mb-4 bg-primary" role="alert" aria-live="assertive" aria-atomic="true">
+	        <div class="toast-header">
+	          <i class="bx bx-bell"></i>&nbsp;
+	          <span class="fw-medium me-auto">${notif.title}</span>
+	          <small>${notif.date} ${notif.time}</small>
+	          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+	        </div>
+	        <div class="toast-body">
+	          ${notif.body}
+	        </div>
+	      </div>`;
+	      /* !-- RENDERER --- */
+	    }
+	};
+	    
  ## Quick Deploy
  Create an account on Render and setup environment variable before you click the button below. 
  
