@@ -41,8 +41,10 @@ This project involves the creation of a real-time WebSocket message broadcasting
 
 3. **RESTful API:** The server provides a set of RESTful API endpoints for external interactions:
    - `GET /`: Returns a JSON response indicating the server's status as "Active."
-   - `GET /msg/send`: Accepts query parameters for sending messages to connected clients via WebSocket. It returns a JSON response indicating the success or failure of the message transmission.
-   - `GET /msg/status`: Returns a JSON response with the server's status as "active."
+   - `GET /ws/msg/send`: Accepts query parameters for sending messages to connected clients via WebSocket. It returns a JSON response indicating the success or failure of the message transmission.
+   - `GET /ws/server/status`: Returns a JSON response with the server's status as "active."
+   - `GET /ws/client/count`: Returns a JSON response with the number of clients connected to the websocket.
+   - `GET /ws/client/info`: Returns a JSON response with the number of clients connected and their information like IP Address, ReadyState and Protocol.
 
 ## Code Highlights
 - The server is built using Express.js and runs on port 1430.
@@ -53,8 +55,8 @@ This project involves the creation of a real-time WebSocket message broadcasting
 
 ## Usage
 - Clients can connect to the WebSocket server at `ws://your_server_url:1430/socket`.
-- To send a message, clients can make a GET request to `/msg/send` with the `message` query parameter.
-- The server's status can be checked by making a GET request to `/msg/status`.
+- To send a message, clients can make a GET request to `/ws/msg/send` with the `message` and `token` query parameter.
+- The server's status can be checked by making a GET request to `/ws/server/status`.
 
 ## Project Goals
 - Create a robust and real-time messaging server.
@@ -80,13 +82,27 @@ Install required packages.
 Run using recommended launch script
 
     node server.js
-    
+
+ ## Token List
+ Since this is standalone API and doesn't have a database, there are static tokens that you can use to secure the connection. **This is temporary**.
+ | Token |
+ | ----- |
+ | 1f295d5b4d779dab21713071b6eb4f2f |
+ | 99321ea55fd51725baebd7f518f8f0b9 | 
+ | 569708e27aa1d86bf8db6ff9d4d3deed |
+ | 6028633adb67b06a387f9932dd74f51e |
+ | cab5628944d38e5313183aabeaf75f44 |
+ | 591b8abe360ad1b735ae1044d13f66c7 |
+ | c2da6fd7b2b4ef18e4330aa0a11336f1 |
+ | 196f65959b8877d48ab188294cf97cf7 |
+ 
  ## Sample Usage - Sender
  Send message using PHP
 
     $APIReturn = file_get_contents(env('NOTIF_API_URL') . '?' . 
 	    http_build_query(
 	        array(
+	            'token' => env('TOKEN'),
 	            'message' => json_encode(
 	                array(
 	                'title' => 'Update',
