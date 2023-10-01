@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Tester</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script>
+        let socket;
+
+        function startWebSocket() {
+            const urlInput = document.getElementById('websocket-url');
+            const startButton = document.getElementById('start-button');
+            const messageTable = document.getElementById('message-table');
+
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                // WebSocket is already open, close it
+                socket.close();
+                urlInput.disabled = false;
+                startButton.textContent = 'Start WebSocket';
+            } else {
+                // WebSocket is closed, open a new connection
+                const url = urlInput.value;
+                if (!url) {
+                    alert('Please enter a WebSocket URL.');
+                    return;
+                }
+
+                socket = new WebSocket(url);
+
+                socket.onopen = () => {
+                    urlInput.disabled = true;
+                    startButton.textContent = 'Stop WebSocket';
+                };
+
+                socket.onmessage = (event) => {
+                    // Handle WebSocket messages here
+                    const message = event.data;
+                    console.log('Received message:', message);
+
+                    // Create a new row in the table
+                    const newRow = messageTable.insertRow(0); // Insert at the top
+
+                    // Add a cell for the message content
+                    const messageCell = newRow.insertCell();
+                    messageCell.innerHTML = message;
+
+                    // Add a cell for the copy button
+                    const copyCell = newRow.insertCell();
+                    const copyButton = document.createElement('button');
+                    copyButton.textContent = 'Copy';
+                    copyButton.classList.add('btn', 'btn-secondary');
+                    copyButton.addEventListener('click', () => {
+                        copyToClipboard(message);
+                    });
+                    copyCell.appendChild(copyButton);
+                };
+
+                socket.onclose = () => {
+                    urlInput.disabled = false;
+                    startButton.textContent = 'Start WebSocket';
+                };
+            }
+        }
+
+        // Function to copy text to clipboard
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('Copied to clipboard: ' + text);
+        }
+    </script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>WebSocket Tester</h1>
+        <div class="form-group">
+            <label for="websocket-url">WebSocket URL:</label>
+            <input type="text" class="form-control" id="websocket-url" placeholder="ws://example.com/socket">
+        </div>
+        <button class="btn btn-primary" id="start-button" onclick="startWebSocket()">Start WebSocket</button>
+        <!-- Table to display WebSocket messages -->
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>Messages</th>
+                    <th>Actions</th> <!-- New column for copy buttons -->
+                </tr>
+            </thead>
+            <tbody id="message-table"></tbody>
+        </table>
+    </div>
+    <!-- Add Bootstrap JS and jQuery dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
