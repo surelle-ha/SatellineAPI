@@ -156,9 +156,22 @@ Run using recommended launch script
 	    }
 	};
 	    
- ## Quick Deploy
- Create an account on Render and setup environment variable before you click the button below. 
- 
+
+## Tunnel Local via Ngrok 
+Ngrok is a cross-platform tool that creates secure tunnels between your local development server and the internet, allowing you to expose locally hosted services to the web. It’s often used for testing and development purposes.
+
+#### 1. Download Ngrok
+[![Ngrok](https://img.shields.io/badge/Ngrok-purple?style=for-the-badge&logo=ngrok)](https://ngrok.com/download)
+
+#### 2. Register and get your Auth token
+#### 3. Run this script on your Ngrok directory.
+	ngrok config add-authtoken <token>
+#### 4. Start a tunnel
+	ngrok http 1430
+
+## Or Deploy via Render
+Create an account on Render and setup environment variable before you click the button below. 
+
  [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/surelle-ha/SatellineAPI.git)
 
 ## WebSocket Server Testing
