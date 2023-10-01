@@ -156,8 +156,8 @@ Run using recommended launch script
 	    }
 	};
 	    
-
-## Tunnel Local via Ngrok 
+# Deployment 
+## Tunnel Local via Ngrok (Optional)
 Ngrok is a cross-platform tool that creates secure tunnels between your local development server and the internet, allowing you to expose locally hosted services to the web. It’s often used for testing and development purposes.
 
 #### 1. Download Ngrok
@@ -169,7 +169,7 @@ Ngrok is a cross-platform tool that creates secure tunnels between your local de
 #### 4. Start a tunnel
 	ngrok http 1430
 
-## Or Deploy via Render
+## Or Deploy via Render (Optional)
 Create an account on Render and setup environment variable before you click the button below. 
 
  [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/surelle-ha/SatellineAPI.git)
