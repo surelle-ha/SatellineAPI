@@ -25,12 +25,19 @@
     </a>
   </div>
   <div align="center">
-	  <img src="https://komarev.com/ghpvc/?username=surelle-ha&style=flat-square&color=blue" alt=""/>
 	  <h3>Hey there! Welcome to Satelline API.</h3>
 	  <p>You may also visit my <i><a href="https://www.linkedin.com/in/surellejs/">LinkedIn Profile</a></i> to learn more about the developer</p>
   <img src="https://visme.co/blog/wp-content/uploads/2020/02/header-1200.gif" width="600" height="300"/><br><br>
 </div>
 
+<div align="center">
+
+![node](https://img.shields.io/badge/node_js-black?style=for-the-badge&logo=javascript)
+![express](https://img.shields.io/badge/express_js-black?style=for-the-badge&logo=express)
+![websocket](https://img.shields.io/badge/websocket-black?style=for-the-badge&logo=ws)
+
+</div>
+	
 ## Overview
 This project involves the creation of a real-time WebSocket message broadcasting server using Node.js, Express.js, and the WebSocket library. The server allows clients to connect via WebSocket to send and receive messages in real-time. It also includes a RESTful API for checking the server's status and sending messages.
 
