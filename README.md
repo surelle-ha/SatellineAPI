@@ -161,6 +161,11 @@ Run using recommended launch script
  
  [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/surelle-ha/SatellineAPI.git)
 
+## WebSocket Server Testing
+To test your Satelline API, click the button below and paste your WS URL. It should be in `wss://ws-server-url/socket` format.
+
+[![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)](https://surelle-ha.github.io/SatellineAPI/)
+
 ## Developer
 
  - Surelle-ha -- [Twitter](https://twitter.com/escolidista1)
