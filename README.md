@@ -1,4 +1,4 @@
-
+> Outdated. Maintainer moved this repository to a private organization!
 
 <div align="center">
 	<h1>Satelline API</h1>
